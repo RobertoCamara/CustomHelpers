@@ -7,6 +7,9 @@ namespace JsonConverters
 {
     public class EnumDescriptionConverter : JsonConverter
     {
+
+        public int Variavaledeclaradaenuncausada { get; set; }
+
         public override bool CanConvert(Type objectType)
         {
             return objectType.IsEnum;
