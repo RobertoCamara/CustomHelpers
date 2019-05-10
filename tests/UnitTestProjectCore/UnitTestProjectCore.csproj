@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\JsonConverters\JsonConverters.csproj" />
+    <ProjectReference Include="..\..\src\Helper.JsonConverters\Helper.JsonConverters.csproj" />
   </ItemGroup>
 
 </Project>

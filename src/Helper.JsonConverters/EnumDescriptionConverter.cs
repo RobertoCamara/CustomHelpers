@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace JsonConverters
+namespace Helper.JsonConverters
 {
     public class EnumDescriptionConverter : JsonConverter
     {
@@ -18,7 +18,7 @@ namespace JsonConverters
             if (!canConvert)
                 throw new TypeLoadException("Type not allowed. Use this converter only in enumerations.");
 
-            FieldInfo fieldInfo  = objectType.GetFields()
+            FieldInfo fieldInfo = objectType.GetFields()
                                .FirstOrDefault(f => ((JsonPropertyAttribute)f.GetCustomAttribute(typeof(JsonPropertyAttribute), false))
                                ?.PropertyName == reader.Value.ToString());
 
@@ -27,7 +27,7 @@ namespace JsonConverters
 
             return fieldInfo.GetValue(fieldInfo);
         }
-        
+
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             bool canConvert = CanConvert(value.GetType());

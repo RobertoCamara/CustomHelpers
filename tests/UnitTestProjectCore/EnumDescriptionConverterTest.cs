@@ -1,4 +1,4 @@
-using JsonConverters;
+using Helper.JsonConverters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
@@ -8,11 +8,6 @@ namespace UnitTestProjectCore
     [TestClass]
     public class EnumDescriptionConverterTest
     {
-
-        public string varaivelnaoutilizada;
-
-
-
         [TestMethod]
         public void EnumDescription_ProcessedMessage()
         {
