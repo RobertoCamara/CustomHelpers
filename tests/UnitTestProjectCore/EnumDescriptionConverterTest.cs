@@ -8,6 +8,11 @@ namespace UnitTestProjectCore
     [TestClass]
     public class EnumDescriptionConverterTest
     {
+
+        public string varaivelnaoutilizada;
+
+
+
         [TestMethod]
         public void EnumDescription_ProcessedMessage()
         {
