@@ -8,7 +8,20 @@ namespace JsonConverters
     public class EnumDescriptionConverter : JsonConverter
     {
 
-        public int Variavaledeclaradaenuncausada { get; set; }
+        public string Variavaledeclaradaenuncausada;
+
+        public void TesteCodeCoverage()
+        {
+            try
+            {
+                var i = 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         public override bool CanConvert(Type objectType)
         {
