@@ -26,6 +26,14 @@ namespace UnitTestProjectCore
     [TestClass]
     public class DateTimeWithFormatConverterTest
     {
+
+        [TestMethod]
+        public void DateTimeWithFormatConverter_ConstructorParametrized()
+        {
+            DateTimeWithFormatConverter converter = new DateTimeWithFormatConverter("dd/MM/yyyy");
+            Assert.IsNotNull(converter);
+        }
+
         [TestMethod]
         public void DateTimeWithFormatConverter_UsingDefaultFormat()
         {
