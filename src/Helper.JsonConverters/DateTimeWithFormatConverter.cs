@@ -12,11 +12,11 @@ namespace Helper.JsonConverters
     /// </summary>
     public class DateTimeWithFormatConverter : DateTimeConverterBase
     {
-        private readonly string _format = "dd/MM/yyyy HH:mm:ss";
+        private readonly string _format;
 
         public DateTimeWithFormatConverter()
         {
-
+            _format = "dd/MM/yyyy HH:mm:ss";
         }
 
         public DateTimeWithFormatConverter(string format)
