@@ -32,7 +32,12 @@ namespace Helper.JsonConverters
         /// <param name="serializer">JSON serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue(((DateTime)value).ToString(_format));
+            if (!(value is DateTime dateTime))
+            {
+                throw new InvalidCastException("Campo não é um DateTime.");
+            }
+
+            writer.WriteValue(dateTime.ToString(_format));
         }
 
         /// <summary>
@@ -51,7 +56,7 @@ namespace Helper.JsonConverters
             DateTime result;
             if (DateTime.TryParseExact(s, _format, CultureInfo.InvariantCulture, DateTimeStyles.None, out result)) return result;
 
-            return DateTime.Now;
+            return DateTime.MinValue;
         }
     }
 }

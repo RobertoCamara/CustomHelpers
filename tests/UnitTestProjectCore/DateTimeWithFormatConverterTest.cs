@@ -17,6 +17,11 @@ namespace UnitTestProjectCore
         public DateTime Data { get; set; }
     }
 
+    internal class TestConverterDateTimeInvalid
+    {
+        [JsonConverter(typeof(DateTimeWithFormatConverter))]
+        public string DataFake { get; set; }
+    }
 
     [TestClass]
     public class DateTimeWithFormatConverterTest
@@ -51,5 +56,42 @@ namespace UnitTestProjectCore
 
         }
 
+        [TestMethod]
+        public void DateTimeWithFormatConverter_DeserializeObject_Null()
+        {
+            string json = @"{'Data':null}";
+
+            TesteConverterCustomFormat teste = JsonConvert.DeserializeObject<TesteConverterCustomFormat>(json);
+
+            Assert.AreEqual(DateTime.MinValue, teste.Data);
+        }
+
+        [TestMethod]
+        public void DateTimeWithFormatConverter_DeserializeObject_Ok()
+        {
+            string json = "{\"Data\":\"17-09-19 14:00:00\"}";
+
+            TesteConverterCustomFormat teste = JsonConvert.DeserializeObject<TesteConverterCustomFormat>(json);
+
+            var expected = "17/09/2019 14:00:00";
+
+            Assert.AreEqual(expected, teste.Data.ToString("dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CreateSpecificCulture("pt-BR")));
+        }
+
+        [TestMethod]
+        public void DateTimeWithFormatConverter_SerializeObject_Exception()
+        {
+            try
+            {
+                TestConverterDateTimeInvalid converter = new TestConverterDateTimeInvalid { DataFake = "data fake" };
+                string json = JsonConvert.SerializeObject(converter);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual("Campo não é um DateTime.", ex.Message);
+            }
+        }
+
     }
+    
 }
