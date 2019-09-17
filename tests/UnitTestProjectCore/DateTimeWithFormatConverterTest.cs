@@ -92,6 +92,83 @@ namespace UnitTestProjectCore
             }
         }
 
+        [TestMethod]
+        public void DateTimeWithFormatConverter_WriteJson_Exception()
+        {
+            try
+            {
+                DateTimeWithFormatConverter converter = new DateTimeWithFormatConverter();
+                converter.WriteJson(null, "data fake", null);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual("Campo não é um DateTime.", ex.Message);
+            }
+        }
+
+
+        [TestMethod]
+        public void DateTimeWithFormatConverter_ReadJson_ReturnNull()
+        {
+            DateTimeWithFormatConverter converter = new DateTimeWithFormatConverter();
+            JsonReaderValueNull jsonReader = new JsonReaderValueNull();
+            object result = converter.ReadJson(jsonReader, typeof(DateTimeWithFormatConverter), null, null);
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void DateTimeWithFormatConverter_ReadJson_ReturnDateTime()
+        {
+            DateTimeWithFormatConverter converter = new DateTimeWithFormatConverter();
+            JsonReaderDateTimeValid jsonReader = new JsonReaderDateTimeValid();
+            object result = converter.ReadJson(jsonReader, typeof(DateTimeWithFormatConverter), null, null);
+
+            var expected = new DateTime(2019, 09, 17, 15, 0, 0).ToString("dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CreateSpecificCulture("pt-BR"));
+
+            Assert.AreEqual(expected, Convert.ToDateTime(result.ToString()).ToString("dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CreateSpecificCulture("pt-BR")));
+        }
+
+        [TestMethod]
+        public void DateTimeWithFormatConverter_ReadJson_ReturnDateTimeMinValue()
+        {
+
+            DateTimeWithFormatConverter converter = new DateTimeWithFormatConverter();
+            JsonReaderMinDateTime jsonReader = new JsonReaderMinDateTime();
+            
+            object result = converter.ReadJson(jsonReader, typeof(DateTimeWithFormatConverter), null, null);
+            
+            Assert.AreEqual(DateTime.MinValue, result);
+        }
+
+
+
     }
-    
+
+    internal class JsonReaderValueNull : JsonReader
+    {
+        public override bool Read()
+        {
+            return true;
+        }
+    }
+
+    internal class JsonReaderMinDateTime : JsonReader
+    {
+        public override object Value => "data fake";
+        public override bool Read()
+        {
+            return true;
+        }
+    }
+
+    internal class JsonReaderDateTimeValid : JsonReader
+    {
+        public override object Value => new DateTime(2019,09,17,15,00,00).ToString("dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CreateSpecificCulture("pt-BR"));
+        public override bool Read()
+        {
+            return true;
+        }
+    }
+
+
 }
