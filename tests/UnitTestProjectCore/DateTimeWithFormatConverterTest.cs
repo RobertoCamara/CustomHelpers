@@ -5,33 +5,60 @@ using System;
 
 namespace UnitTestProjectCore
 {
-    internal class TesteConverterDefaultFormat
-    {
-        [JsonConverter(typeof(DateTimeWithFormatConverter))]
-        public DateTime Data { get; set; }
-    }
-
-    internal class TesteConverterCustomFormat
-    {
-        [JsonConverter(typeof(DateTimeWithFormatConverter), "dd-MM-yy HH:mm:ss")]
-        public DateTime Data { get; set; }
-    }
-
-    internal class TestConverterDateTimeInvalid
-    {
-        [JsonConverter(typeof(DateTimeWithFormatConverter))]
-        public string DataFake { get; set; }
-    }
+    
 
     [TestClass]
     public class DateTimeWithFormatConverterTest
     {
+        internal class TesteConverterDefaultFormat
+        {
+            [JsonConverter(typeof(DateTimeWithFormatConverter))]
+            public DateTime Data { get; set; }
+        }
+
+        internal class TesteConverterCustomFormat
+        {
+            [JsonConverter(typeof(DateTimeWithFormatConverter), "dd-MM-yy HH:mm:ss")]
+            public DateTime Data { get; set; }
+        }
+
+        internal class TestConverterDateTimeInvalid
+        {
+            [JsonConverter(typeof(DateTimeWithFormatConverter))]
+            public string DataFake { get; set; }
+        }
 
         [TestMethod]
         public void DateTimeWithFormatConverter_ConstructorParametrized()
         {
             DateTimeWithFormatConverter converter = new DateTimeWithFormatConverter("dd/MM/yyyy");
             Assert.IsNotNull(converter);
+        }
+
+        internal class JsonReaderValueNull : JsonReader
+        {
+            public override bool Read()
+            {
+                return true;
+            }
+        }
+
+        internal class JsonReaderMinDateTime : JsonReader
+        {
+            public override object Value => "data fake";
+            public override bool Read()
+            {
+                return true;
+            }
+        }
+
+        internal class JsonReaderDateTimeValid : JsonReader
+        {
+            public override object Value => new DateTime(2019, 09, 17, 15, 00, 00).ToString("dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CreateSpecificCulture("pt-BR"));
+            public override bool Read()
+            {
+                return true;
+            }
         }
 
         [TestMethod]
@@ -152,31 +179,7 @@ namespace UnitTestProjectCore
 
     }
 
-    internal class JsonReaderValueNull : JsonReader
-    {
-        public override bool Read()
-        {
-            return true;
-        }
-    }
-
-    internal class JsonReaderMinDateTime : JsonReader
-    {
-        public override object Value => "data fake";
-        public override bool Read()
-        {
-            return true;
-        }
-    }
-
-    internal class JsonReaderDateTimeValid : JsonReader
-    {
-        public override object Value => new DateTime(2019,09,17,15,00,00).ToString("dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CreateSpecificCulture("pt-BR"));
-        public override bool Read()
-        {
-            return true;
-        }
-    }
+    
 
 
 }
