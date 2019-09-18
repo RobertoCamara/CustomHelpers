@@ -1,27 +1,29 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace Helper.JsonConverters
 {
+
     /// <summary>
     /// Custom DateTime with JSON Serializer / Deserializer Formatting
     /// </summary>
-    public class DateTimeWithFormatConverter : DateTimeConverterBase
+    public class DateTimeWithFormatConverter : IsoDateTimeConverter
     {
         private readonly string _format;
 
         public DateTimeWithFormatConverter()
         {
             _format = "dd/MM/yyyy HH:mm:ss";
+            DateTimeFormat = _format;
+            Culture = CultureInfo.CreateSpecificCulture("pt-BR");
         }
 
         public DateTimeWithFormatConverter(string format)
         {
             _format = format;
+            DateTimeFormat = format;
         }
 
         /// <summary>
